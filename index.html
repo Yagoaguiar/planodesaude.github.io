@@ -22,49 +22,53 @@
                     <p id="end_url"></p>
                     <button class="btn" type="button" onclick="generateLink('Agnaldo')">Agnaldo</button>
                     <button class="btn" type="button" onclick="generateLink('Aleff')">Aleff</button>
-                    <a href="#" class="custom-button" style="display: none;">Mandar para o cliente</a>
                 </form>
             </div>
         </div>
     </div>
     <script>
+        function getGreeting() {
+            const currentHour = new Date().getHours();
+            if (currentHour >= 6 && currentHour < 12) {
+                return 'Bom dia';
+            } else if (currentHour >= 12 && currentHour < 18) {
+                return 'Boa tarde';
+            } else {
+                return 'Boa noite';
+            }
+        }
+
         function generateLink(user) {
-    // Obtém os valores dos campos de entrada
-    let number = document.form_main.number.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-    let customMessage = document.form_main.message.value;
-    let greeting = getGreeting();
-    let message = `${greeting} ${customMessage}`;
-    let prontoAgn = ", Meu nome é Agnaldo Messias. A pedido da AMIL, estamos entrando em contato para falarmos sobre planos de Saúde...";
-    let prontoAleff = ", Meu nome é Aleff, e estou entrando em contato a pedido da AMIL";
+            let number = document.form_main.number.value;
+            let customMessage = document.form_main.message.value;
+            let greeting = getGreeting();
+            let message = `${greeting} ${customMessage}`;
+            let prontoAgn = ",  Meu nome é Agnaldo Messias. A pedido da AMIL, estamos entrando em contato, para falarmos sobre planos de Saúde. A Amil em Brasília,  temos  a opção de planos EMPRESARIAIS ( mais recomendado pelo custo pois os  planos empresariais são mais em conta, que planos PF). temos também, para Graduados, a opção do plano pessoa física.Atendemos DIARIAMENTE até as 23 horas.Seria muito bom , falar com vc.";
+            let prontoAleff = ", meu nome é Aleff, e estou entrando em contato a pedido da AMIL";
 
-    let url = "https://wa.me/";
-    let end_url = `${url}${55}${number}?text=${encodeURIComponent(message)}`;
+            let url = "https://wa.me/";
+            let end_url = `${url}${55}${number}?text=${message}`;
 
-    // Adiciona a mensagem específica com base no usuário
-    if (user === 'Agnaldo') {
-        end_url += encodeURIComponent(prontoAgn);
-    } else if (user === 'Aleff') {
-        end_url += encodeURIComponent(prontoAleff);
-    }
+            if (user === 'Agnaldo') {
+                end_url += prontoAgn;
+            } else if (user === 'Aleff') {
+                end_url += prontoAleff;
+            }
 
-    console.log(end_url); // Debug para verificar o link gerado
+            var existingButton = document.querySelector('.custom-button');
 
-    // Verifica se o botão já existe
-    var existingButton = document.querySelector('.custom-button');
-
-    if (existingButton) {
-        existingButton.href = end_url; // Atualiza o link
-        existingButton.textContent = "Mandar para o cliente";
-    } else {
-        // Cria o botão dinamicamente
-        var button = document.createElement("a");
-        button.innerHTML = "Mandar para o cliente";
-        button.href = end_url;
-        button.classList.add("custom-button");
-        button.target = "_blank"; // Abre em uma nova aba
-        document.querySelector('.container').appendChild(button);
-    }
-}
+            if (existingButton) {
+                existingButton.href = end_url;
+                existingButton.textContent = "Mandar para o cliente";
+            } else {
+                var button = document.createElement("a");
+                button.innerHTML = "Mandar para o cliente";
+                button.href = end_url;
+                button.classList.add("custom-button");
+                button.target = "_blank";
+                document.querySelector('.container').appendChild(button);
+            }
+        }
     </script>
 </body>
 
