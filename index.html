@@ -22,41 +22,46 @@
                     <p id="end_url"></p>
                     <button class="btn" type="button" onclick="generateLink('Agnaldo')">Agnaldo</button>
                     <button class="btn" type="button" onclick="generateLink('Aleff')">Aleff</button>
+                    <a href="#" class="custom-button" style="display: none;">Mandar para o cliente</a>
                 </form>
             </div>
         </div>
     </div>
     <script>
         function generateLink(user) {
-            let number = document.form_main.number.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-            let customMessage = document.form_main.message.value;
-            let greeting = getGreeting();
-            let message = `${greeting} ${customMessage}`;
-            let prontoAgn = ", Meu nome é Agnaldo Messias. A pedido da AMIL, estamos entrando em contato para falarmos sobre planos de Saúde...";
-            let prontoAleff = ", Meu nome é Aleff, e estou entrando em contato a pedido da AMIL";
+    // Obtém os valores dos campos de entrada
+    let number = document.form_main.number.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    let customMessage = document.form_main.message.value;
+    let greeting = getGreeting();
+    let message = `${greeting} ${customMessage}`;
+    let prontoAgn = ", Meu nome é Agnaldo Messias. A pedido da AMIL, estamos entrando em contato para falarmos sobre planos de Saúde...";
+    let prontoAleff = ", Meu nome é Aleff, e estou entrando em contato a pedido da AMIL";
 
-            let url = "https://wa.me/";
-            let end_url = `${url}${55}${number}?text=${encodeURIComponent(message)}`;
+    let url = "https://wa.me/";
+    let end_url = `${url}${55}${number}?text=${encodeURIComponent(message)}`;
 
+    // Adiciona a mensagem específica com base no usuário
     if (user === 'Agnaldo') {
         end_url += encodeURIComponent(prontoAgn);
     } else if (user === 'Aleff') {
         end_url += encodeURIComponent(prontoAleff);
     }
 
-    console.log(end_url); // Debug para ver o link gerado
+    console.log(end_url); // Debug para verificar o link gerado
 
+    // Verifica se o botão já existe
     var existingButton = document.querySelector('.custom-button');
 
     if (existingButton) {
-        existingButton.href = end_url;
+        existingButton.href = end_url; // Atualiza o link
         existingButton.textContent = "Mandar para o cliente";
     } else {
+        // Cria o botão dinamicamente
         var button = document.createElement("a");
         button.innerHTML = "Mandar para o cliente";
         button.href = end_url;
         button.classList.add("custom-button");
-        button.target = "_blank";
+        button.target = "_blank"; // Abre em uma nova aba
         document.querySelector('.container').appendChild(button);
     }
 }
