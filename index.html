@@ -16,8 +16,8 @@
             <div class="input-group">
                 <form name="form_main">
                     <label class="form_label" for="number">Número:</label>
-                    <input class="form_input" type="text" name="number" id="number" placeholder="(61)999630131">
-                    <label class="form_label" for="message">Mensag:</label>
+                    <input class="form_input" type="text" name="number" id="number" placeholder="(61) 9 99999-9999">
+                    <label class="form_label" for="message">Mensagem:</label>
                     <input class="form_input" type="text" name="message" id="message" placeholder="Só nome">
                     <p id="end_url"></p>
                     <button class="btn" type="button" onclick="generateLink('Agnaldo')">Agnaldo</button>
@@ -46,27 +46,35 @@
             let prontoAgn = ",  Meu nome é Agnaldo Messias. A pedido da AMIL, estamos entrando em contato, para falarmos sobre planos de Saúde. A Amil em Brasília,  temos  a opção de planos EMPRESARIAIS ( mais recomendado pelo custo pois os  planos empresariais são mais em conta, que planos PF). temos também, para Graduados, a opção do plano pessoa física.Atendemos DIARIAMENTE até as 23 horas.Seria muito bom , falar com vc.";
             let prontoAleff = ", meu nome é Aleff, e estou entrando em contato a pedido da AMIL";
 
-            let url = "https://wa.me/";
-            let end_url = `${url}${55}${number}?text=${message}`;
+            // Limpa o número, removendo caracteres como ( ) - e espaços
+            number = number.replace(/[^\d]/g, "");
 
-            if (user === 'Agnaldo') {
-                end_url += prontoAgn;
-            } else if (user === 'Aleff') {
-                end_url += prontoAleff;
-            }
+            // Verifica se o número está com o formato correto
+            if (number.length === 11) { // Exemplo: 61999999999
+                let url = "https://wa.me/";
+                let end_url = `${url}${55}${number}?text=${message}`;
 
-            var existingButton = document.querySelector('.custom-button');
+                if (user === 'Agnaldo') {
+                    end_url += prontoAgn;
+                } else if (user === 'Aleff') {
+                    end_url += prontoAleff;
+                }
 
-            if (existingButton) {
-                existingButton.href = end_url;
-                existingButton.textContent = "Mandar para o cliente";
+                var existingButton = document.querySelector('.custom-button');
+
+                if (existingButton) {
+                    existingButton.href = end_url;
+                    existingButton.textContent = "Mandar para o cliente";
+                } else {
+                    var button = document.createElement("a");
+                    button.innerHTML = "Mandar para o cliente";
+                    button.href = end_url;
+                    button.classList.add("custom-button");
+                    button.target = "_blank";
+                    document.querySelector('.container').appendChild(button);
+                }
             } else {
-                var button = document.createElement("a");
-                button.innerHTML = "Mandar para o cliente";
-                button.href = end_url;
-                button.classList.add("custom-button");
-                button.target = "_blank";
-                document.querySelector('.container').appendChild(button);
+                alert("Por favor, insira um número de telefone válido no formato (61) 9 99999-9999.");
             }
         }
     </script>
